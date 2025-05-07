@@ -8,6 +8,8 @@ const formatDate = (dateString) => {
 };
 
 const EventCard = ({ event, isFavorite, isVisited, onFavorite, onVisited, onClick }) => {
+  const imagePath = event.img.startsWith('/') ? event.img : `/${event.img}`;
+
   return (
     <div 
       className="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden cursor-pointer transition-transform hover:scale-[1.02]"
@@ -15,9 +17,13 @@ const EventCard = ({ event, isFavorite, isVisited, onFavorite, onVisited, onClic
     >
       <div className="relative">
         <img 
-          src={event.img} 
+          src={imagePath} 
           alt={event.title}
           className="w-full h-48 object-cover"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = '/heinsberg-event-app/images/fallback.png';
+          }}
         />
         <button
           onClick={(e) => {
