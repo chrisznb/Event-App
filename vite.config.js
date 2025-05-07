@@ -34,5 +34,5 @@ export default defineConfig({
       },
     },
   },
-  base: '/heinsberg-event-app/',
+  base: '/Event-App/',
 })
