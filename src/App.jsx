@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
@@ -38,7 +38,7 @@ const App = () => {
     <ThemeProvider>
       <Router>
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-16">
-            <Routes>
+          <Routes>
             <Route
               path="/"
               element={
@@ -72,8 +72,8 @@ const App = () => {
                 />
               }
             />
-              <Route path="/profile" element={<Profile />} />
-            </Routes>
+            <Route path="/profile" element={<Profile />} />
+          </Routes>
           <Navbar />
         </div>
       </Router>
