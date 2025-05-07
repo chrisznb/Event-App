@@ -7,9 +7,6 @@ const formatDate = (dateString) => {
 };
 
 const EventCard = ({ event, isFavorite, isVisited, onFavorite, onVisited, onClick }) => {
-  const imagePath = `/Event-App/assets/img/${event.img}`;
-  const fallbackImage = '/Event-App/assets/img/fallback.png';
-
   return (
     <div 
       className="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden cursor-pointer transition-transform hover:scale-[1.02]"
@@ -17,13 +14,9 @@ const EventCard = ({ event, isFavorite, isVisited, onFavorite, onVisited, onClic
     >
       <div className="relative">
         <img 
-          src={imagePath} 
+          src={event.img} 
           alt={event.title}
           className="w-full h-48 object-cover"
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = fallbackImage;
-          }}
         />
         <button
           onClick={(e) => {
