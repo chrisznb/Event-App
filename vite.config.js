@@ -25,6 +25,14 @@ export default defineConfig({
         drop_debugger: true,
       },
     },
+    assetsDir: 'assets',
+    rollupOptions: {
+      output: {
+        assetFileNames: 'assets/[name][extname]',
+        chunkFileNames: 'assets/[name].js',
+        entryFileNames: 'assets/[name].js',
+      },
+    },
   },
   base: '/Event-App/',
 })
