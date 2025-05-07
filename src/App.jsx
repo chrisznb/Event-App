@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import MapView from './pages/MapView';
 import Favorites from './pages/Favorites';
 import Profile from './pages/Profile';
+import ErrorBoundary from './components/ErrorBoundary';
 
 const App = () => {
   const [favorites, setFavorites] = useState([]);
@@ -35,49 +36,51 @@ const App = () => {
   };
 
   return (
-    <ThemeProvider>
-      <Router>
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-16">
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <Home
-                  favorites={favorites}
-                  visited={visited}
-                  onFavorite={handleFavorite}
-                  onVisited={handleVisited}
-                />
-              }
-            />
-            <Route
-              path="/map"
-              element={
-                <MapView
-                  favorites={favorites}
-                  visited={visited}
-                  onFavorite={handleFavorite}
-                  onVisited={handleVisited}
-                />
-              }
-            />
-            <Route
-              path="/favorites"
-              element={
-                <Favorites
-                  favorites={favorites}
-                  visited={visited}
-                  onFavorite={handleFavorite}
-                  onVisited={handleVisited}
-                />
-              }
-            />
-            <Route path="/profile" element={<Profile />} />
-          </Routes>
-          <Navbar />
-        </div>
-      </Router>
-    </ThemeProvider>
+    <ErrorBoundary>
+      <ThemeProvider>
+        <Router>
+          <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-16">
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Home
+                    favorites={favorites}
+                    visited={visited}
+                    onFavorite={handleFavorite}
+                    onVisited={handleVisited}
+                  />
+                }
+              />
+              <Route
+                path="/map"
+                element={
+                  <MapView
+                    favorites={favorites}
+                    visited={visited}
+                    onFavorite={handleFavorite}
+                    onVisited={handleVisited}
+                  />
+                }
+              />
+              <Route
+                path="/favorites"
+                element={
+                  <Favorites
+                    favorites={favorites}
+                    visited={visited}
+                    onFavorite={handleFavorite}
+                    onVisited={handleVisited}
+                  />
+                }
+              />
+              <Route path="/profile" element={<Profile />} />
+            </Routes>
+            <Navbar />
+          </div>
+        </Router>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 };
 
