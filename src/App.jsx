@@ -38,7 +38,7 @@ const App = () => {
   return (
     <ErrorBoundary>
       <ThemeProvider>
-        <Router>
+        <Router basename="/Event-App">
           <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-16">
             <Routes>
               <Route
