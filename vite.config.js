@@ -28,13 +28,15 @@ export default defineConfig({
     },
     assetsDir: 'assets',
     rollupOptions: {
-      input: 'index.html',
+      input: path.resolve(__dirname, 'index.html'),
       output: {
         assetFileNames: (assetInfo) => {
-          if (assetInfo.name.endsWith('.png') || assetInfo.name.endsWith('.jpg')) {
-            return 'assets/img/[name][extname]'
+          const info = assetInfo.name.split('.')
+          const ext = info[info.length - 1]
+          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(ext)) {
+            return `assets/img/[name][extname]`
           }
-          return 'assets/[name][extname]'
+          return `assets/[name][extname]`
         },
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js'
