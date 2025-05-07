@@ -4,6 +4,23 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  font-family: 'Nunito Sans', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
 @layer base {
   :root {
     --color-primary: 30, 58, 138;
