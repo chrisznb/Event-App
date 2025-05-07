@@ -1,6 +1,5 @@
 import React from 'react';
-import { HeartIcon, CheckIcon } from '@heroicons/react/24/outline';
-import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
+import { FaHeart, FaRegHeart, FaCheck, FaRegCheck } from 'react-icons/fa';
 
 const formatDate = (dateString) => {
   const options = { day: 'numeric', month: 'long' };
@@ -8,7 +7,8 @@ const formatDate = (dateString) => {
 };
 
 const EventCard = ({ event, isFavorite, isVisited, onFavorite, onVisited, onClick }) => {
-  const imagePath = event.img.startsWith('/') ? event.img : `/${event.img}`;
+  const imagePath = `/Event-App/assets/img/${event.img}`;
+  const fallbackImage = '/Event-App/assets/img/fallback.png';
 
   return (
     <div 
@@ -22,7 +22,7 @@ const EventCard = ({ event, isFavorite, isVisited, onFavorite, onVisited, onClic
           className="w-full h-48 object-cover"
           onError={(e) => {
             e.target.onerror = null;
-            e.target.src = '/Event-App/assets/img/fallback.png';
+            e.target.src = fallbackImage;
           }}
         />
         <button
@@ -33,9 +33,9 @@ const EventCard = ({ event, isFavorite, isVisited, onFavorite, onVisited, onClic
           className="absolute top-2 right-2 p-2 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm"
         >
           {isFavorite ? (
-            <HeartIconSolid className="h-6 w-6 text-red-500" />
+            <FaHeart className="h-6 w-6 text-red-500" />
           ) : (
-            <HeartIcon className="h-6 w-6 text-gray-400" />
+            <FaRegHeart className="h-6 w-6 text-gray-400" />
           )}
         </button>
         <div className="absolute bottom-2 left-2 px-3 py-1 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-sm font-medium">
@@ -65,7 +65,7 @@ const EventCard = ({ event, isFavorite, isVisited, onFavorite, onVisited, onClic
               : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
           }`}
         >
-          <CheckIcon className="h-5 w-5" />
+          <FaCheck className="h-5 w-5" />
           {isVisited ? 'Besucht' : 'Als besucht markieren'}
         </button>
       </div>
