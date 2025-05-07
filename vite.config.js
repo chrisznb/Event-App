@@ -27,9 +27,6 @@ export default defineConfig({
     },
     assetsDir: 'assets',
     rollupOptions: {
-      input: {
-        main: path.resolve(__dirname, 'index.html'),
-      },
       output: {
         assetFileNames: 'assets/[name][extname]',
         chunkFileNames: 'assets/[name].js',
@@ -37,5 +34,5 @@ export default defineConfig({
       },
     },
   },
-  base: '/Event-App/',
+  base: './',
 })
