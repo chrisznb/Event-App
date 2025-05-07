@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaHeart, FaRegHeart, FaCheck, FaRegCheck } from 'react-icons/fa';
+import { FaHeart, FaRegHeart, FaCheck } from 'react-icons/fa';
 
 const formatDate = (dateString) => {
   const options = { day: 'numeric', month: 'long' };
@@ -58,7 +58,7 @@ const EventCard = ({ event, isFavorite, isVisited, onFavorite, onVisited, onClic
               : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
           }`}
         >
-          <FaCheck className="h-5 w-5" />
+          <FaCheck className={`h-5 w-5 ${isVisited ? 'text-green-500' : 'text-gray-400'}`} />
           {isVisited ? 'Besucht' : 'Als besucht markieren'}
         </button>
       </div>
