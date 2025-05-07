@@ -28,20 +28,17 @@ export default defineConfig({
     },
     assetsDir: 'assets',
     rollupOptions: {
-      input: {
-        main: path.resolve(__dirname, 'index.html'),
-      },
+      input: 'index.html',
       output: {
         assetFileNames: (assetInfo) => {
-          let extType = assetInfo.name.split('.')[1];
-          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
-            extType = 'img';
+          if (assetInfo.name.endsWith('.png') || assetInfo.name.endsWith('.jpg')) {
+            return 'assets/img/[name][extname]'
           }
-          return `assets/${extType}/[name][extname]`;
+          return 'assets/[name][extname]'
         },
         chunkFileNames: 'assets/js/[name]-[hash].js',
-        entryFileNames: 'assets/js/[name]-[hash].js',
-      },
+        entryFileNames: 'assets/js/[name]-[hash].js'
+      }
     },
   },
 })
