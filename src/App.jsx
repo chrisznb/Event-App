@@ -11,6 +11,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import Login from './pages/Login';
 import OrganizerDashboard from './pages/OrganizerDashboard';
 import AdminDashboard from './pages/AdminDashboard';
+import LoadingSpinner from './components/LoadingSpinner';
 
 function PrivateRoute({ children, allowedRoles }) {
   const { user, role, loading } = useAuth();

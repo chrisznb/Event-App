@@ -93,33 +93,36 @@ const Home = ({ favorites, visited, onFavorite, onVisited }) => {
             </p>
           </div>
         ) : (
-          <div className="space-y-8">
-            {upcomingEvents.map(event => {
-              const { day, month } = formatDate(event.date);
-              return (
-                <div key={event.id} className="flex gap-4 sm:gap-6">
-                  <div className="flex-shrink-0 w-16 sm:w-20 text-center">
-                    <div className="bg-primary-100 dark:bg-primary-900 rounded-lg p-2">
-                      <div className="text-xl sm:text-2xl font-bold text-primary-600 dark:text-primary-400 font-sora">
-                        {day}
-                      </div>
-                      <div className="text-xs sm:text-sm text-primary-600 dark:text-primary-400 font-nunito">
-                        {month}
+          <div className="relative">
+            <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-0.5 bg-primary-400 dark:bg-primary-600 z-0" />
+            <div className="space-y-8">
+              {upcomingEvents.map((event, idx) => {
+                const { day, month } = formatDate(event.date);
+                return (
+                  <div key={event.id} className="flex gap-4 sm:gap-6">
+                    <div className="flex flex-col items-center flex-shrink-0 w-16 sm:w-20 relative z-10">
+                      <div className="border-2 border-primary-400 dark:border-primary-600 bg-white/80 dark:bg-primary-900/80 rounded-lg flex flex-col items-center justify-center p-2" style={{ minHeight: '56px', minWidth: '48px' }}>
+                        <div className="text-xl sm:text-2xl font-bold text-primary-600 dark:text-primary-400 font-sora leading-none">
+                          {day}
+                        </div>
+                        <div className="text-xs sm:text-sm text-primary-600 dark:text-primary-400 font-nunito leading-none">
+                          {month}
+                        </div>
                       </div>
                     </div>
+                    <div className="flex-grow">
+                      <EventList
+                        events={[event]}
+                        favorites={favorites}
+                        visited={visited}
+                        onFavorite={onFavorite}
+                        onVisited={onVisited}
+                      />
+                    </div>
                   </div>
-                  <div className="flex-grow">
-                    <EventList
-                      events={[event]}
-                      favorites={favorites}
-                      visited={visited}
-                      onFavorite={onFavorite}
-                      onVisited={onVisited}
-                    />
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         )}
       </section>

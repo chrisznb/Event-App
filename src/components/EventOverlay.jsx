@@ -1,12 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { XMarkIcon, HeartIcon, CheckIcon, MapPinIcon, CalendarIcon, ClockIcon, GlobeAltIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
+import { FaShareAlt, FaCalendarPlus, FaCopy } from 'react-icons/fa';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
 const formatDate = (dateString) => {
   const options = { weekday: 'long', day: 'numeric', month: 'long' };
   return new Date(dateString).toLocaleDateString('de-DE', options);
+};
+
+const generateGoogleCalendarUrl = (event) => {
+  const start = new Date(event.date + 'T' + event.time).toISOString().replace(/-|:|\.\d\d\d/g, '');
+  const end = new Date(new Date(event.date + 'T' + event.time).getTime() + 2 * 60 * 60 * 1000).toISOString().replace(/-|:|\.\d\d\d/g, '');
+  return `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${start}/${end}&details=${encodeURIComponent(event.description)}&location=${encodeURIComponent(event.location)}`;
+};
+
+const generateICal = (event) => {
+  const dtStart = new Date(event.date + 'T' + event.time).toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+  const dtEnd = new Date(new Date(event.date + 'T' + event.time).getTime() + 2 * 60 * 60 * 1000).toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+  return `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nSUMMARY:${event.title}\nDESCRIPTION:${event.description}\nLOCATION:${event.location}\nDTSTART:${dtStart}\nDTEND:${dtEnd}\nEND:VEVENT\nEND:VCALENDAR`;
 };
 
 const EventOverlay = ({ event, isFavorite, isVisited, onClose, onFavorite, onVisited }) => {
@@ -18,6 +31,37 @@ const EventOverlay = ({ event, isFavorite, isVisited, onClose, onFavorite, onVis
       document.body.style.overflow = '';
     };
   }, []);
+
+  const [showMenu, setShowMenu] = useState(false);
+
+  const handleShare = async (e) => {
+    e.stopPropagation();
+    if (navigator.share) {
+      await navigator.share({
+        title: event.title,
+        text: event.description,
+        url: window.location.href
+      });
+    } else {
+      await navigator.clipboard.writeText(window.location.href);
+      alert('Link kopiert!');
+    }
+    setShowMenu(false);
+  };
+
+  const handleCalendar = (e) => {
+    e.stopPropagation();
+    const ical = generateICal(event);
+    const blob = new Blob([ical], { type: 'text/calendar' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${event.title}.ics`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setShowMenu(false);
+  };
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -44,6 +88,39 @@ const EventOverlay = ({ event, isFavorite, isVisited, onClose, onFavorite, onVis
               <HeartIcon className="h-6 w-6 text-gray-400" />
             )}
           </button>
+          {/* Teilen-Button */}
+          <button
+            onClick={e => { e.stopPropagation(); setShowMenu(v => !v); }}
+            className="absolute top-4 right-16 p-2 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm z-10"
+          >
+            <FaShareAlt className="h-6 w-6 text-primary-600 dark:text-primary-400" />
+          </button>
+          {/* Dropdown-Menü */}
+          {showMenu && (
+            <div className="absolute top-14 right-4 bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-20 min-w-[200px]">
+              <button
+                onClick={handleShare}
+                className="flex items-center gap-2 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-left"
+              >
+                <FaCopy className="h-5 w-5" /> Event teilen
+              </button>
+              <a
+                href={generateGoogleCalendarUrl(event)}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={e => e.stopPropagation()}
+                className="flex items-center gap-2 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-left"
+              >
+                <FaCalendarPlus className="h-5 w-5" /> Zu Google Kalender
+              </a>
+              <button
+                onClick={handleCalendar}
+                className="flex items-center gap-2 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-left"
+              >
+                <FaCalendarPlus className="h-5 w-5" /> Als .ics (Apple/Outlook)
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="p-6">

@@ -1,5 +1,5 @@
-import React from 'react';
-import { FaHeart, FaRegHeart, FaCheck } from 'react-icons/fa';
+import React, { useState } from 'react';
+import { FaHeart, FaRegHeart, FaCheck, FaCalendarPlus, FaCopy } from 'react-icons/fa';
 
 const formatDate = (dateString) => {
   const options = { day: 'numeric', month: 'long' };
@@ -7,6 +7,8 @@ const formatDate = (dateString) => {
 };
 
 const EventCard = ({ event, isFavorite, isVisited, onFavorite, onVisited, onClick }) => {
+  const [showMenu, setShowMenu] = useState(false);
+
   return (
     <div 
       className="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden cursor-pointer transition-transform hover:scale-[1.02]"
@@ -23,7 +25,7 @@ const EventCard = ({ event, isFavorite, isVisited, onFavorite, onVisited, onClic
             e.stopPropagation();
             onFavorite(event.id);
           }}
-          className="absolute top-2 right-2 p-2 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm"
+          className="absolute top-2 right-2 p-2 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm z-10"
         >
           {isFavorite ? (
             <FaHeart className="h-6 w-6 text-red-500" />
