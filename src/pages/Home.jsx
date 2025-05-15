@@ -40,7 +40,7 @@ const Home = ({ favorites, visited, onFavorite, onVisited }) => {
     .sort((a, b) => new Date(a.date) - new Date(b.date));
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
+    <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8 max-w-7xl">
       <header className="mb-8">
         <h1 className="text-3xl font-bold mb-2 dark:text-white font-sora">
           {getGreeting()} 👋
@@ -95,14 +95,14 @@ const Home = ({ favorites, visited, onFavorite, onVisited }) => {
         ) : (
           <div className="relative">
             <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-0.5 bg-primary-400 dark:bg-primary-600 z-0" />
-            <div className="space-y-8">
+            <div className="space-y-6 sm:space-y-8">
               {upcomingEvents.map((event, idx) => {
                 const { day, month } = formatDate(event.date);
                 return (
-                  <div key={event.id} className="flex gap-4 sm:gap-6">
-                    <div className="flex flex-col items-center flex-shrink-0 w-16 sm:w-20 relative z-10">
-                      <div className="border-2 border-primary-400 dark:border-primary-600 bg-white/80 dark:bg-primary-900/80 rounded-lg flex flex-col items-center justify-center p-2" style={{ minHeight: '56px', minWidth: '48px' }}>
-                        <div className="text-xl sm:text-2xl font-bold text-primary-600 dark:text-primary-400 font-sora leading-none">
+                  <div key={event.id} className="flex gap-2 sm:gap-6">
+                    <div className="flex flex-col items-center flex-shrink-0 w-12 sm:w-20 relative z-10">
+                      <div className="border-2 border-primary-400 dark:border-primary-600 bg-white/80 dark:bg-primary-900/80 rounded-lg flex flex-col items-center justify-center p-1 sm:p-2" style={{ minHeight: '40px', minWidth: '40px' }}>
+                        <div className="text-base sm:text-2xl font-bold text-primary-600 dark:text-primary-400 font-sora leading-none">
                           {day}
                         </div>
                         <div className="text-xs sm:text-sm text-primary-600 dark:text-primary-400 font-nunito leading-none">
