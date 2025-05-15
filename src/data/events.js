@@ -2,7 +2,7 @@ import openAirImg from '../assets/img/open_air_konzert.png';
 import haldenzauberImg from '../assets/img/haldenzauber.png';
 import kunstmarktImg from '../assets/img/kunstmarkt.png';
 import festaImg from '../assets/img/festa_portuguesa.png';
-import strassenfestImg from '../assets/img/strassenfest.jpg';
+import strassenfestImg from '../assets/img/strassenfest.png';
 import flohmarktImg from '../assets/img/flohmarkt.png';
 import sneakPreviewImg from '../assets/img/sneak_preview.png';
 import halloweenPartyImg from '../assets/img/halloween_party.png';
