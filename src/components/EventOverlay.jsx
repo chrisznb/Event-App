@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { XMarkIcon, HeartIcon, CheckIcon, MapPinIcon, CalendarIcon, ClockIcon, GlobeAltIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
@@ -10,6 +10,15 @@ const formatDate = (dateString) => {
 };
 
 const EventOverlay = ({ event, isFavorite, isVisited, onClose, onFavorite, onVisited }) => {
+  useEffect(() => {
+    // Body-Scroll verhindern
+    document.body.style.overflow = 'hidden';
+    return () => {
+      // Body-Scroll wieder erlauben
+      document.body.style.overflow = '';
+    };
+  }, []);
+
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
