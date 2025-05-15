@@ -1,8 +1,10 @@
 import React from 'react';
 import { useTheme } from '../context/ThemeContext';
+import { useAuth } from '../context/AuthContext';
 
 const Profile = () => {
   const { isDarkMode, toggleTheme } = useTheme();
+  const { logout, role } = useAuth();
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
@@ -53,6 +55,34 @@ const Profile = () => {
               info@heinsberg-events.de
             </a>
           </p>
+        </div>
+
+        {(role === 'organizer' || role === 'admin') && (
+          <div className="mb-4">
+            <a
+              href="#/organizer"
+              className="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors mr-2"
+            >
+              Organizer-Dashboard
+            </a>
+            {role === 'admin' && (
+              <a
+                href="#/admin"
+                className="inline-block px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+              >
+                Admin-Dashboard
+              </a>
+            )}
+          </div>
+        )}
+
+        <div className="flex justify-end">
+          <button
+            onClick={logout}
+            className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+          >
+            Logout
+          </button>
         </div>
       </div>
     </div>

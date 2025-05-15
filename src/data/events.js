@@ -148,5 +148,3 @@ export const events = [
     website: "www.himmerich-events.de"
   }
 ];
-
-const { logout } = useAuth();
