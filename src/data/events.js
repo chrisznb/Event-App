@@ -6,6 +6,7 @@ import strassenfestImg from '../assets/img/strassenfest.png';
 import flohmarktImg from '../assets/img/flohmarkt.png';
 import sneakPreviewImg from '../assets/img/sneak_preview.png';
 import halloweenPartyImg from '../assets/img/halloween_party.png';
+import { useAuth } from '../context/AuthContext';
 
 const placeholderImage = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNDAwIiBmaWxsPSIjZjNmNGY2Ii8+CiAgICA8dGV4dCB4PSI0MDAiIHk9IjIwMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI0IiBmaWxsPSIjOWNhM2FmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBhbGlnbm1lbnQtYmFzZWxpbmU9Im1pZGRsZSI+QmlsZCB3aXJkIGdlbGFkZW4uLi48L3RleHQ+Cjwvc3ZnPg==';
 
@@ -147,3 +148,5 @@ export const events = [
     website: "www.himmerich-events.de"
   }
 ];
+
+const { logout } = useAuth();
