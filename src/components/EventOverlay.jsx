@@ -65,7 +65,7 @@ const EventOverlay = ({ event, isFavorite, isVisited, onClose, onFavorite, onVis
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl max-w-full sm:max-w-2xl w-full max-h-[95vh] overflow-y-auto">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl max-w-full sm:max-w-2xl w-full max-h-[95vh] overflow-y-auto animate-fadeInScale">
         <div className="relative">
           <img 
             src={event.img} 

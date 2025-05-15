@@ -6,12 +6,13 @@ const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString('de-DE', options);
 };
 
-const EventCard = ({ event, isFavorite, isVisited, onFavorite, onVisited, onClick }) => {
+const EventCard = ({ event, isFavorite, isVisited, onFavorite, onVisited, onClick, idx }) => {
   const [showMenu, setShowMenu] = useState(false);
 
   return (
     <div 
-      className="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden cursor-pointer transition-transform hover:scale-[1.02] max-w-full"
+      className="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden cursor-pointer transition-transform hover:scale-[1.02] max-w-full animate-fadeIn"
+      style={idx !== undefined ? { animationDelay: `${idx * 60}ms`, animationFillMode: 'both' } : {}}
       onClick={onClick}
     >
       <div className="relative">

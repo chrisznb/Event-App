@@ -7,7 +7,7 @@ const EventList = ({ events, favorites, visited, onFavorite, onVisited }) => {
 
   return (
     <>
-      {events.map((event) => (
+      {events.map((event, idx) => (
         <EventCard
           key={event.id}
           event={event}
@@ -16,6 +16,7 @@ const EventList = ({ events, favorites, visited, onFavorite, onVisited }) => {
           onFavorite={onFavorite}
           onVisited={onVisited}
           onClick={() => setSelectedEvent(event)}
+          idx={idx}
         />
       ))}
 
