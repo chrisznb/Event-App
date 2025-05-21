@@ -7,12 +7,12 @@ const Profile = () => {
   const { logout, role } = useAuth();
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
-      <h1 className="text-3xl font-bold mb-8 dark:text-white font-sora">
+    <div className="container mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-8 md:py-10 max-w-7xl">
+      <h1 className="text-3xl font-bold mb-8 sm:mb-10 dark:text-white font-sora">
         Profil
       </h1>
 
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 sm:p-8 space-y-6 sm:space-y-8">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white font-sora">
             Dark Mode

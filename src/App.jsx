@@ -12,6 +12,7 @@ import Login from './pages/Login';
 import OrganizerDashboard from './pages/OrganizerDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import LoadingSpinner from './components/LoadingSpinner';
+import Locals from './pages/Locals';
 
 function PrivateRoute({ children, allowedRoles }) {
   const { user, role, loading } = useAuth();
@@ -53,7 +54,7 @@ const App = () => {
       <ThemeProvider>
         <AuthProvider>
           <Router>
-            <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-16">
+            <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20 sm:pb-24">
               <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route
@@ -116,6 +117,14 @@ const App = () => {
                   element={
                     <PrivateRoute allowedRoles={["user", "organizer", "admin"]}>
                       <Profile />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/locals"
+                  element={
+                    <PrivateRoute allowedRoles={["user", "organizer", "admin"]}>
+                      <Locals />
                     </PrivateRoute>
                   }
                 />

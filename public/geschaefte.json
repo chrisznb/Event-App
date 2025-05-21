@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "Café Glücklich",
+    "category": "Café",
+    "address": "Marktstraße 12, 52525 Heinsberg",
+    "img": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
+    "description": "Gemütliches Café mit hausgemachten Kuchen und Spezialitätenkaffee.",
+    "openingHours": "Mo-So 8:00-18:00",
+    "coupons": ["10% auf alle Heißgetränke"]
+  },
+  {
+    "id": 2,
+    "name": "Ristorante Bella Italia",
+    "category": "Restaurant",
+    "address": "Bahnhofstraße 5, 52525 Heinsberg",
+    "img": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80",
+    "description": "Italienische Küche mit Pizza aus dem Steinofen und frischer Pasta.",
+    "openingHours": "Di-So 11:30-22:00",
+    "coupons": ["Gratis Espresso zum Mittagstisch"]
+  },
+  {
+    "id": 3,
+    "name": "Kino Heinsberg",
+    "category": "Kino",
+    "address": "Kinostraße 1, 52525 Heinsberg",
+    "img": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80",
+    "description": "Modernes Kino mit aktuellen Blockbustern und gemütlichen Sesseln.",
+    "openingHours": "Täglich 14:00-23:00",
+    "coupons": ["2 für 1 am Kinomontag"]
+  },
+  {
+    "id": 4,
+    "name": "Museum für Stadtgeschichte",
+    "category": "Museum",
+    "address": "Museumsplatz 3, 52525 Heinsberg",
+    "img": "https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=600&q=80",
+    "description": "Spannende Ausstellungen zur Geschichte der Region Heinsberg.",
+    "openingHours": "Mi-So 10:00-17:00",
+    "coupons": []
+  }
+] 

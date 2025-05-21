@@ -1,9 +1,44 @@
 import React, { useEffect, useState } from 'react';
-import { XMarkIcon, HeartIcon, CheckIcon, MapPinIcon, CalendarIcon, ClockIcon, GlobeAltIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
+import { XMarkIcon, HeartIcon, CheckIcon, MapPinIcon, CalendarIcon, ClockIcon, GlobeAltIcon, EnvelopeIcon, ShareIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
 import { FaShareAlt, FaCalendarPlus, FaCopy } from 'react-icons/fa';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+
+// Utility: Farben nach Kategorie
+const categoryColors = {
+  Musik: '#2563eb',        // Blau
+  Kulinarisch: '#16a34a',  // Grün
+  Kunst: '#a21caf',        // Lila
+  Sport: '#f59e42',        // Orange
+  Party: '#db2777',        // Pink
+  default: '#e53e3e'       // Rot
+};
+
+// Benutzerdefiniertes Marker-Icon
+const createCustomIcon = (color = '#e53e3e') => {
+  return L.divIcon({
+    className: 'custom-marker',
+    html: `
+      <div class="marker-container">
+        <div class="marker-pin" style="background: ${color}"></div>
+        <div class="marker-pulse" style="background: ${color}20"></div>
+      </div>
+    `,
+    iconSize: [30, 42],
+    iconAnchor: [15, 42],
+    popupAnchor: [0, -42]
+  });
+};
+
+// Fix für Leaflet-Icons
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
 
 const formatDate = (dateString) => {
   const options = { weekday: 'long', day: 'numeric', month: 'long' };
@@ -23,16 +58,25 @@ const generateICal = (event) => {
 };
 
 const EventOverlay = ({ event, isFavorite, isVisited, onClose, onFavorite, onVisited }) => {
+  const [showMenu, setShowMenu] = useState(false);
+
   useEffect(() => {
     // Body-Scroll verhindern
     document.body.style.overflow = 'hidden';
-    return () => {
-      // Body-Scroll wieder erlauben
-      document.body.style.overflow = '';
+    
+    // Click-Handler für das Schließen des Teilen-Menüs
+    const handleClickOutside = (e) => {
+      if (showMenu && !e.target.closest('.share-menu-container')) {
+        setShowMenu(false);
+      }
     };
-  }, []);
 
-  const [showMenu, setShowMenu] = useState(false);
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.body.style.overflow = '';
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [showMenu]);
 
   const handleShare = async (e) => {
     e.stopPropagation();
@@ -64,8 +108,16 @@ const EventOverlay = ({ event, isFavorite, isVisited, onClose, onFavorite, onVis
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl max-w-full sm:max-w-2xl w-full max-h-[95vh] overflow-y-auto animate-fadeInScale">
+    <div 
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 sm:p-6 md:p-8"
+      onClick={(e) => {
+        // Nur schließen, wenn der Klick direkt auf dem Overlay-Hintergrund war
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      }}
+    >
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl max-w-full sm:max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-fadeInScale">
         <div className="relative">
           <img 
             src={event.img} 
@@ -80,24 +132,24 @@ const EventOverlay = ({ event, isFavorite, isVisited, onClose, onFavorite, onVis
           </button>
           <button
             onClick={() => onFavorite(event.id)}
-            className="absolute top-4 left-4 p-2 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm"
+            className="absolute top-4 left-4 p-2 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm group"
           >
             {isFavorite ? (
-              <HeartIconSolid className="h-6 w-6 text-red-500" />
+              <HeartIconSolid className="h-6 w-6 text-pink-500 drop-shadow-lg animate-heartbeat" />
             ) : (
-              <HeartIcon className="h-6 w-6 text-gray-400" />
+              <HeartIcon className="h-6 w-6 text-gray-400 group-hover:text-pink-400 transition-colors" />
             )}
           </button>
           {/* Teilen-Button */}
           <button
             onClick={e => { e.stopPropagation(); setShowMenu(v => !v); }}
-            className="absolute top-4 right-16 p-2 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm z-10"
+            className="absolute top-4 right-16 p-2 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm z-10 share-menu-container"
           >
-            <FaShareAlt className="h-6 w-6 text-primary-600 dark:text-primary-400" />
+            <ShareIcon className="h-6 w-6 text-primary-600 dark:text-primary-400" />
           </button>
           {/* Dropdown-Menü */}
           {showMenu && (
-            <div className="absolute top-14 right-4 bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-20 min-w-[200px]">
+            <div className="absolute top-14 right-4 bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-20 min-w-[200px] share-menu-container">
               <button
                 onClick={handleShare}
                 className="flex items-center gap-2 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-left"
@@ -123,8 +175,8 @@ const EventOverlay = ({ event, isFavorite, isVisited, onClose, onFavorite, onVis
           )}
         </div>
 
-        <div className="p-3 sm:p-6">
-          <div className="flex items-start justify-between mb-3 sm:mb-4">
+        <div className="p-4 sm:p-6 md:p-8">
+          <div className="flex items-start justify-between mb-4 sm:mb-6">
             <h2 className="text-lg sm:text-2xl font-bold text-gray-900 dark:text-white font-sora">
               {event.title}
             </h2>
@@ -136,7 +188,7 @@ const EventOverlay = ({ event, isFavorite, isVisited, onClose, onFavorite, onVis
             </div>
           </div>
 
-          <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
+          <div className="space-y-4 sm:space-y-5 mb-6 sm:mb-8">
             <div className="flex items-center text-xs sm:text-base text-gray-600 dark:text-gray-400">
               <CalendarIcon className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
               <span>{formatDate(event.date)}</span>
@@ -163,13 +215,13 @@ const EventOverlay = ({ event, isFavorite, isVisited, onClose, onFavorite, onVis
             </div>
           </div>
 
-          <p className="text-xs sm:text-base text-gray-700 dark:text-gray-300 mb-4 sm:mb-6">
+          <p className="text-xs sm:text-base text-gray-700 dark:text-gray-300 mb-6 sm:mb-8">
             {event.description}
           </p>
 
           <button
             onClick={() => onVisited(event.id)}
-            className={`w-full flex items-center justify-center gap-2 py-3 px-4 rounded-lg text-sm font-medium transition-colors mb-4 sm:mb-6 ${
+            className={`w-full flex items-center justify-center gap-2 py-4 px-6 rounded-lg text-sm font-medium transition-colors mb-6 sm:mb-8 ${
               isVisited
                 ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
                 : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
@@ -179,7 +231,7 @@ const EventOverlay = ({ event, isFavorite, isVisited, onClose, onFavorite, onVis
             {isVisited ? 'Besucht' : 'Als besucht markieren'}
           </button>
 
-          <div className="h-40 sm:h-64 rounded-lg overflow-hidden">
+          <div className="h-48 sm:h-72 md:h-80 rounded-lg overflow-hidden">
             <MapContainer
               center={[event.lat, event.lng]}
               zoom={13}
@@ -189,7 +241,80 @@ const EventOverlay = ({ event, isFavorite, isVisited, onClose, onFavorite, onVis
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               />
+              <Marker 
+                position={[event.lat, event.lng]}
+                icon={createCustomIcon(categoryColors[event.category] || categoryColors.default)}
+              >
+                <Popup>
+                  <div className="p-2">
+                    <h3 className="font-bold dark:text-white font-sora">{event.title}</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300 font-nunito">
+                      {event.date} · {event.time}
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 font-nunito">
+                      {event.location}
+                    </p>
+                  </div>
+                </Popup>
+              </Marker>
             </MapContainer>
+            <style jsx>{`
+              .custom-marker {
+                background: none;
+                border: none;
+              }
+              .marker-container {
+                position: relative;
+                width: 30px;
+                height: 42px;
+              }
+              .marker-pin {
+                width: 30px;
+                height: 30px;
+                border-radius: 50% 50% 50% 0;
+                position: absolute;
+                transform: rotate(-45deg);
+                left: 50%;
+                top: 50%;
+                margin: -15px 0 0 -15px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+              }
+              .marker-pin::after {
+                content: '';
+                width: 14px;
+                height: 14px;
+                margin: 8px 0 0 8px;
+                background: #fff;
+                position: absolute;
+                border-radius: 50%;
+              }
+              .marker-pulse {
+                background: rgba(229, 62, 62, 0.2);
+                border-radius: 50%;
+                height: 14px;
+                width: 14px;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                margin: 11px 0 0 -7px;
+                transform: rotateX(55deg);
+                z-index: -2;
+                animation: pulsate 1.5s ease-out infinite;
+              }
+              @keyframes pulsate {
+                0% {
+                  transform: rotateX(55deg) scale(0.1);
+                  opacity: 0;
+                }
+                50% {
+                  opacity: 1;
+                }
+                100% {
+                  transform: rotateX(55deg) scale(1.2);
+                  opacity: 0;
+                }
+              }
+            `}</style>
           </div>
         </div>
       </div>

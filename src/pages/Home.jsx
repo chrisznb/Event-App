@@ -40,8 +40,8 @@ const Home = ({ favorites, visited, onFavorite, onVisited }) => {
     .sort((a, b) => new Date(a.date) - new Date(b.date));
 
   return (
-    <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8 max-w-7xl">
-      <header className="mb-8">
+    <div className="container mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-8 md:py-10 max-w-7xl">
+      <header className="mb-8 sm:mb-10">
         <h1 className="text-3xl font-bold mb-2 dark:text-white font-sora">
           {getGreeting()} 👋
         </h1>
@@ -56,10 +56,6 @@ const Home = ({ favorites, visited, onFavorite, onVisited }) => {
         selectedCategory={selectedCategory}
         onCategoryChange={setSelectedCategory}
       />
-
-      <div className="my-8">
-        <EventStats events={events} />
-      </div>
 
       <section className="mt-8">
         <h2 className="text-2xl font-bold mb-4 dark:text-white font-sora">
@@ -82,7 +78,7 @@ const Home = ({ favorites, visited, onFavorite, onVisited }) => {
         </div>
       </section>
 
-      <section className="mt-12">
+      <section className="mt-12 sm:mt-16">
         <h2 className="text-2xl font-bold mb-6 dark:text-white font-sora">
           Kommende Events
         </h2>
